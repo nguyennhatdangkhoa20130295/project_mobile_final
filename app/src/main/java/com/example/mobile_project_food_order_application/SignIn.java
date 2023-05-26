@@ -1,12 +1,13 @@
 package com.example.mobile_project_food_order_application;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobile_project_food_order_application.Common.Common;
@@ -37,28 +38,49 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final ProgressDialog mDialog = new ProgressDialog(SignIn.this);
-                mDialog.setMessage("Please Wating...");
-                mDialog.show();
+//                final ProgressDialog mDialog = new ProgressDialog(SignIn.this);
+//                mDialog.setMessage("Vui lòng chờ...");
+//                mDialog.show();
 
                 table_user.addValueEventListener(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        String phone, password;
+                        phone = String.valueOf(edtPhone.getText());
+                        password = String.valueOf(edtPassword.getText());
+                        if (TextUtils.isEmpty(phone) && TextUtils.isEmpty(password)) {
+//                            mDialog.dismiss();
+                            Toast.makeText(SignIn.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (TextUtils.isEmpty(phone)) {
+//                            mDialog.dismiss();
+                            Toast.makeText(SignIn.this, "Vui lòng nhập số điện thoại", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (TextUtils.isEmpty(password)) {
+//                            mDialog.dismiss();
+                            Toast.makeText(SignIn.this, "Vui lòng nhập mật khẩu", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
                         //check if user not exist in database
-                        if(dataSnapshot.child(edtPhone.getText().toString()).exists()) {
+                        if (dataSnapshot.child(phone).exists()) {
                             //get user information
-                            mDialog.dismiss();
-                            User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
-                            user.setPhone(edtPhone.getText().toString());
-                            if (user.getPassword().equals(edtPassword.getText().toString())) {
-                                Toast.makeText(SignIn.this, "Sign in successful !", Toast.LENGTH_SHORT).show();
+//                            mDialog.dismiss();
+                            User user = dataSnapshot.child(phone).getValue(User.class);
+                            user.setPhone(phone);
+                            if (user.getPassword().equals(password)) {
+                                Intent homeIntent = new Intent(SignIn.this, Home.class);
+                                Common.currentUser = user;
+                                startActivity(homeIntent);
+                                finish();
                             } else {
-                                Toast.makeText(SignIn.this, "Wrong Password !", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignIn.this, "Sai mật khẩu!", Toast.LENGTH_SHORT).show();
                             }
-                        }else{
-                            Toast.makeText(SignIn.this, "User not exist in Database !", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SignIn.this, "Tài khoản người dùng không tồn tại", Toast.LENGTH_SHORT).show();
                         }
                     }
 
