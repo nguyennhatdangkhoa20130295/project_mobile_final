@@ -49,7 +49,7 @@ public class SignUp extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String name, phone, password;
                         name = String.valueOf(edtName.getText());
-                        phone = String.valueOf(edtPhone.getText());
+                        phone = "0" + edtPhone.getText();
                         password = String.valueOf(edtPassword.getText());
                         if (TextUtils.isEmpty(name) && TextUtils.isEmpty(phone) && TextUtils.isEmpty(password)) {
                             mDialog.dismiss();

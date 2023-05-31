@@ -35,7 +35,7 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical|start"
                 android:textAllCaps="true"
-                android:text="100,1000"
+                android:text="100,000"
                 android:textStyle="italic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

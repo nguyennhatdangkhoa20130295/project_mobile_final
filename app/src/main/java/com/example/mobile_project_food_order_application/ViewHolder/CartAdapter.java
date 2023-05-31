@@ -2,7 +2,6 @@ package com.example.mobile_project_food_order_application.ViewHolder;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.media.Image;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,18 +17,12 @@ import com.example.mobile_project_food_order_application.Interface.ItemClickList
 import com.example.mobile_project_food_order_application.Model.Order;
 import com.example.mobile_project_food_order_application.R;
 
-import org.w3c.dom.Text;
-
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by 123456 on 2017/11/19.
- */
-
-class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnCreateContextMenuListener {
+class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
 
     public TextView txt_cart_name, txt_price;
     public ImageView img_cart_count;
@@ -40,7 +33,7 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
         this.txt_cart_name = txt_cart_name;
     }
 
-    public CartViewHolder(View itemView){
+    public CartViewHolder(View itemView) {
         super(itemView);
         txt_cart_name = itemView.findViewById(R.id.cart_item_name);
         txt_price = itemView.findViewById(R.id.cart_item_Price);
@@ -49,7 +42,7 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
     }
 
     @Override
-    public void onClick(View view){
+    public void onClick(View view) {
 
     }
 
@@ -57,22 +50,22 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle(Common.DELETE);
 
-        menu.add(0,0,getAdapterPosition(),Common.DELETE);
+        menu.add(0, 0, getAdapterPosition(), Common.DELETE);
     }
 }
 
-public class CartAdapter extends RecyclerView.Adapter<CartViewHolder>{
+public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
 
     private List<Order> listData = new ArrayList<>();
     private Context context;
 
-    public CartAdapter(List<Order> listData, Context context){
+    public CartAdapter(List<Order> listData, Context context) {
         this.listData = listData;
         this.context = context;
     }
 
     @Override
-    public CartViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public CartViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View itemView = inflater.inflate(R.layout.cart_layout, parent, false);
         return new CartViewHolder(itemView);
@@ -80,13 +73,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder>{
 
     @Override
     public void onBindViewHolder(CartViewHolder holder, int position) {
-        TextDrawable drawable = TextDrawable.builder().buildRound(""+listData.get(position).getQuanlity(), Color.RED);
+        TextDrawable drawable = TextDrawable.builder().buildRound("" + listData.get(position).getQuantity(), Color.RED);
         holder.img_cart_count.setImageDrawable(drawable);
 
-        Locale locale = new Locale("en","US");
-        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
-        int price = (Integer.parseInt(listData.get(position).getPrice()))*(Integer.parseInt(listData.get(position).getQuanlity()));
-        holder.txt_price.setText(fmt.format(price));
+        Locale locale = new Locale("vi", "VN");
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
+        int price = (Integer.parseInt(listData.get(position).getPrice())) * (Integer.parseInt(listData.get(position).getQuantity()));
+        holder.txt_price.setText(numberFormat.format(price));
         holder.txt_cart_name.setText(listData.get(position).getProductName());
 
     }

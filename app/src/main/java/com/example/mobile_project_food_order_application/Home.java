@@ -62,7 +62,6 @@ public class Home extends AppCompatActivity
             public void onClick(View view) {
                 Intent cartIntent = new Intent(Home.this,Cart.class);
                 startActivity(cartIntent);
-
             }
         });
 

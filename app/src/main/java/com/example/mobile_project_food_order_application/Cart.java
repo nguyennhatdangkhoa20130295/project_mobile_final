@@ -183,15 +183,12 @@ public class Cart extends AppCompatActivity {
         }
         for(Order order : cart){
             for(Food food: inventoryList){
-                /*System.out.println("SH-----------IT"+food.getFoodId());
-                System.out.println("FU-----------CK"+order.getProductId());
-                System.out.println("DA-----------MN"+food.getAvailabilityFlag());*/
                 if(food.getFoodId().equals(order.getProductId())){
                     if(food.getAvailabilityFlag().equals("0")){
                         //if the availabilityFlag of this food is "0"
                         partial = true;
                         unavailablefoodprice += Integer.parseInt(food.getPrice());
-                        unavailablefoodprice = (float) (unavailablefoodprice*1.36);
+//                        unavailablefoodprice = (float) (unavailablefoodprice*1.36);
                         unavailablefoodnames += food.getName();
                     }
                 }
@@ -239,9 +236,9 @@ public class Cart extends AppCompatActivity {
                     //cut the price of unavailable food
                     //keep track of totalprice using global variable
                     //txtTotalPrice is in currency format unable to parse
-                    Locale locale = new Locale("en","US");
-                    NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
-                    request.setTotal(fmt.format(totalPrice - unavailablefoodprice));
+                    Locale locale = new Locale("vi", "VN");
+                    NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
+                    request.setTotal(numberFormat.format(totalPrice - unavailablefoodprice));
                     unavailablefoodprice = 0;
 
 
@@ -381,7 +378,7 @@ public class Cart extends AppCompatActivity {
             receipt.totalcost = request.getTotal();
             String message="---------Food Ready! Thank you!---------\n";
             for(Order i:receipt.items){
-                message+=i.getProductName()+" :"+i.getQuanlity()+"\n";
+                message+=i.getProductName()+" :"+i.getQuantity()+"\n";
             }
             message+="Total: "+total;
             return message;
@@ -400,19 +397,19 @@ public class Cart extends AppCompatActivity {
         //Calculate total price
         total = 0;
         for(Order order:cart)
-            total+=(float) (Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuanlity()));
-        Locale locale = new Locale("en","US");
-        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
+            total+=(float) (Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuantity()));
+        Locale locale = new Locale("vi", "VN");
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
 
 
         // add tax, profit to total, do we need to show the tax and profit on the app??
-        float tax= (float) (total*0.06);
-        float profit = (float) (total*0.3);
-        total+=tax+profit;
+//        float tax= (float) (total*0.06);
+//        float profit = (float) (total*0.3);
+//        total+=tax+profit;
+//
+//        totalPrice =total;
 
-        totalPrice =total;
-
-        txtTotalPrice.setText(fmt.format(total));
+        txtTotalPrice.setText(numberFormat.format(total));
 
     }
 

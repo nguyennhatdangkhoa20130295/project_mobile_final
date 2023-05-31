@@ -4,7 +4,7 @@ package com.example.mobile_project_food_order_application.Model;
 public class Order {
     private String ProductId;
     private String ProductName;
-    private String Quanlity;
+    private String Quantity;
     private String Price;
     private String Discount;
 
@@ -14,7 +14,7 @@ public class Order {
     public Order(String productId, String productName, String quanlity, String price, String discount) {
         ProductId = productId;
         ProductName = productName;
-        Quanlity = quanlity;
+        Quantity = quanlity;
         Price = price;
         Discount = discount;
     }
@@ -35,12 +35,12 @@ public class Order {
         ProductName = productName;
     }
 
-    public String getQuanlity() {
-        return Quanlity;
+    public String getQuantity() {
+        return Quantity;
     }
 
-    public void setQuanlity(String quanlity) {
-        Quanlity = quanlity;
+    public void setQuantity(String quantity) {
+        Quantity = quantity;
     }
 
     public String getPrice() {

@@ -1,9 +1,11 @@
 package com.example.mobile_project_food_order_application;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +23,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.text.NumberFormat;
+import java.util.List;
+import java.util.Locale;
 
 public class FoodDetail extends AppCompatActivity {
 
@@ -52,6 +58,7 @@ public class FoodDetail extends AppCompatActivity {
         btnCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(FoodDetail.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
 
                 new Database(getBaseContext()).addToCart(new Order(
                         foodId,
@@ -60,6 +67,7 @@ public class FoodDetail extends AppCompatActivity {
                         currentFood.getPrice(),
                         currentFood.getDiscount()
                 ));
+
 
 
             }
@@ -87,14 +95,17 @@ public class FoodDetail extends AppCompatActivity {
         foods.child(foodId).addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
+                Locale locale = new Locale("vi", "VN");
+                NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
                 currentFood = dataSnapshot.getValue(Food.class);
+                String formattedPrice = numberFormat.format(Double.parseDouble(currentFood.getPrice()));
 
                 //Set Image
                 Picasso.with(getBaseContext()).load(currentFood.getImage()).into(food_image);
 
                 collapsingToolbarLayout.setTitle(currentFood.getName());
 
-                food_price.setText(currentFood.getPrice());
+                food_price.setText(formattedPrice);
 
                 food_name.setText(currentFood.getName());
 

@@ -45,16 +45,16 @@ public class FoodList extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         //Get Intent here
-        if(getIntent() != null)
+        if (getIntent() != null)
             categoryId = getIntent().getStringExtra("CategoryId");
-        if(!categoryId.isEmpty() && categoryId != null){
+        if (!categoryId.isEmpty() && categoryId != null) {
             loadListFood(categoryId);
         }
 
 
     }
 
-    private void loadListFood(String categoryID){
+    private void loadListFood(String categoryID) {
         adapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(Food.class,
                 R.layout.food_item,
                 FoodViewHolder.class,
@@ -69,7 +69,7 @@ public class FoodList extends AppCompatActivity {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
                         //start new activity
-                        Intent foodDetail =  new Intent(FoodList.this, FoodDetail.class);
+                        Intent foodDetail = new Intent(FoodList.this, FoodDetail.class);
                         foodDetail.putExtra("FoodId", adapter.getRef(position).getKey());
                         startActivity(foodDetail);
                     }
@@ -77,7 +77,7 @@ public class FoodList extends AppCompatActivity {
             }
         };
         //Set Adapter
-        Log.d("TAG", ""+adapter.getItemCount());
+        Log.d("TAG", "" + adapter.getItemCount());
         recyclerView.setAdapter(adapter);
     }
 }
