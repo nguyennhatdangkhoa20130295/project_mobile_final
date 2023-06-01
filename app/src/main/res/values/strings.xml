@@ -1,10 +1,14 @@
 <resources>
-    <string name="app_name">FoodOrder</string>
+    <string name="app_name">Happy Cake</string>
     <string name="slogan">Have it your way</string>
-    <string name="title_activity_home">Home</string>
-    <string name="description">Description</string>
+    <string name="title_activity_home">Trang chủ</string>
+    <string name="title_activity_food_list">Danh sách các loại</string>
+    <string name="title_activity_cart">Giỏ hàng</string>
+    <string name="title_activity_order_status">Trạng thái đơn hàng</string>
+    <string name="title_activity_sign_up">Đăng ký tài khoản</string>
+    <string name="title_activity_sign_in">Đăng nhập</string>
+    <string name="description">Mô tả</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
 </resources>

@@ -1,8 +1,10 @@
 package com.example.mobile_project_food_order_application;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,8 +41,11 @@ public class FoodDetail extends AppCompatActivity {
     DatabaseReference foods;
     Food currentFood;
 
+    Button btnHome;
+
     String foodId = "";
     FirebaseRecyclerAdapter<Food, FoodViewHolder> adapter;
+    Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +63,24 @@ public class FoodDetail extends AppCompatActivity {
         btnCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Order existingOrder = new Database(getBaseContext()).getOrderById(foodId);
+                if (existingOrder != null) {
+                    // Sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
+                    int currentQuantity = Integer.parseInt(existingOrder.getQuantity());
+                    int additionalQuantity = Integer.parseInt(numberButton.getNumber());
+                    int newQuantity = currentQuantity + additionalQuantity;
+                    existingOrder.setQuantity(String.valueOf(newQuantity));
+                    new Database(getBaseContext()).updateOrder(existingOrder);
+                } else {
+                    new Database(getBaseContext()).addToCart(new Order(
+                            foodId,
+                            currentFood.getName(),
+                            numberButton.getNumber(),
+                            currentFood.getPrice(),
+                            currentFood.getDiscount()
+                    ));
+                }
                 Toast.makeText(FoodDetail.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
-
-                new Database(getBaseContext()).addToCart(new Order(
-                        foodId,
-                        currentFood.getName(),
-                        numberButton.getNumber(),
-                        currentFood.getPrice(),
-                        currentFood.getDiscount()
-                ));
-
 
 
             }
@@ -83,18 +96,26 @@ public class FoodDetail extends AppCompatActivity {
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppbar);
 
         //Get food ID from Intent
-        if(getIntent() != null)
+        if (getIntent() != null)
             foodId = getIntent().getStringExtra("FoodId");
-        if(!foodId.isEmpty()){
+        if (!foodId.isEmpty()) {
             getDetailFood(foodId);
         }
+        btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent homeIntent = new Intent(FoodDetail.this, Home.class);
+                startActivity(homeIntent);
+            }
+        });
 
     }
 
     private void getDetailFood(String foodId) {
-        foods.child(foodId).addValueEventListener(new ValueEventListener(){
+        foods.child(foodId).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot){
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 Locale locale = new Locale("vi", "VN");
                 NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
                 currentFood = dataSnapshot.getValue(Food.class);
@@ -114,7 +135,7 @@ public class FoodDetail extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError){
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });

@@ -77,9 +77,44 @@ public class Database extends SQLiteAssetHelper {
         String query = String.format("DELETE FROM OrderDetail");
         db.execSQL(query);
     }
+    public Order getOrderById(String foodId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-    public static void main(String[] args) {
+        String[] sqlSelect = {"ProductName", "ProductId", "Quantity", "Price", "Discount"};
+        String sqlTable = "OrderDetail";
+        String selection = "ProductId = ?";
+        String[] selectionArgs = {foodId};
 
+        qb.setTables(sqlTable);
+        Cursor c = qb.query(db, sqlSelect, selection, selectionArgs, null, null, null);
+
+        Order order = null;
+        if (c.moveToFirst()) {
+            int productIdColumnIndex = c.getColumnIndex("ProductId");
+            int productNameColumnIndex = c.getColumnIndex("ProductName");
+            int quantityColumnIndex = c.getColumnIndex("Quantity");
+            int priceColumnIndex = c.getColumnIndex("Price");
+            int discountColumnIndex = c.getColumnIndex("Discount");
+
+            String productId = c.getString(productIdColumnIndex);
+            String productName = c.getString(productNameColumnIndex);
+            String quantity = c.getString(quantityColumnIndex);
+            String price = c.getString(priceColumnIndex);
+            String discount = c.getString(discountColumnIndex);
+
+            order = new Order(productId, productName, quantity, price, discount);
+        }
+
+        c.close();
+        db.close();
+
+        return order;
     }
-
+    public void updateOrder(Order order) {
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "UPDATE OrderDetail SET Quantity = ? WHERE ProductId = ?";
+        db.execSQL(query, new String[]{order.getQuantity(), order.getProductId()});
+        db.close();
+    }
 }

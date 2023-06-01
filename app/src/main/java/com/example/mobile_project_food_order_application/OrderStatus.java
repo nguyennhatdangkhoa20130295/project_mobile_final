@@ -64,12 +64,12 @@ public class OrderStatus extends AppCompatActivity {
 
     private String convertCodeToStatus(String status) {
         if(status.equals("0"))
-            return "Placed";
+            return "Chờ xác nhận";
         else if(status.equals("1"))
-            return "Preparing";
+            return "Đang chuẩn bị hàng";
         else if(status.equals("2"))
-            return "Packaging";
+            return "Chờ lấy hàng";
         else
-            return "Food Ready";
+            return "Đang giao";
     }
 }

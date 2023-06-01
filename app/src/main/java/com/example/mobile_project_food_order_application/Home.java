@@ -49,7 +49,7 @@ public class Home extends AppCompatActivity
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Menu");
+        toolbar.setTitle("Danh mục");
 
         //Init Firebase
         database = FirebaseDatabase.getInstance();
