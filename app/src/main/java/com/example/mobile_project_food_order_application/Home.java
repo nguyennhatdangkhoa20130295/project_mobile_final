@@ -21,6 +21,7 @@ import com.example.mobile_project_food_order_application.Common.Common;
 import com.example.mobile_project_food_order_application.Interface.ItemClickListener;
 import com.example.mobile_project_food_order_application.Model.Category;
 import com.example.mobile_project_food_order_application.Model.Order;
+import com.example.mobile_project_food_order_application.Service.ListenOrder;
 import com.example.mobile_project_food_order_application.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -86,6 +87,10 @@ public class Home extends AppCompatActivity
         recycler_menu.setLayoutManager(layoutManager);
 
         loadMenu();
+
+        //Register Service
+        Intent service = new Intent(Home.this, ListenOrder.class);
+        startService(service);
 
     }
 

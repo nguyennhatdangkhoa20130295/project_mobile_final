@@ -12,6 +12,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="btnSignUp">#023e8a</color>
     <color name="btnSignActive">#0077b6</color>
+    <color name="navBar">#03045e</color>
     <color name="overlayBackground">#7f333639</color>
     <color name="overlayActionBar">#0e0d0e</color>
 </resources>

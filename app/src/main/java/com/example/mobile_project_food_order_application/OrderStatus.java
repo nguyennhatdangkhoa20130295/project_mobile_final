@@ -15,8 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class OrderStatus extends AppCompatActivity {
 
-    public RecyclerView recyclerView;
-    public RecyclerView.LayoutManager layoutManager;
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
 
     FirebaseRecyclerAdapter<Request, OrderViewHolder> adapter;
 
@@ -37,7 +37,11 @@ public class OrderStatus extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        loadOrders(Common.currentUser.getPhone());
+        if (getIntent().getExtras() == null)
+            loadOrders(Common.currentUser.getPhone());
+        else
+            loadOrders(getIntent().getStringExtra("userPhone"));
+
 
     }
 
@@ -51,7 +55,7 @@ public class OrderStatus extends AppCompatActivity {
             @Override
             protected void populateViewHolder(OrderViewHolder viewHolder, Request model, int position) {
                 viewHolder.txtOrderId.setText(adapter.getRef(position).getKey());
-                viewHolder.txtOrderStatus.setText(convertCodeToStatus(model.getStatus()));
+                viewHolder.txtOrderStatus.setText(Common.convertCodeToStatus(model.getStatus()));
                 viewHolder.txtOrderAddress.setText(model.getAddress());
                 viewHolder.txtOrderphone.setText(model.getPhone());
 
@@ -62,14 +66,4 @@ public class OrderStatus extends AppCompatActivity {
 
     }
 
-    private String convertCodeToStatus(String status) {
-        if(status.equals("0"))
-            return "Chờ xác nhận";
-        else if(status.equals("1"))
-            return "Đang chuẩn bị hàng";
-        else if(status.equals("2"))
-            return "Chờ lấy hàng";
-        else
-            return "Đang giao";
-    }
 }
